@@ -20,6 +20,51 @@ a, a:link, a:visited, a:hover, a:focus {
   background: #131D45;
 }
 
+.sub-navsub-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.block-container--info {
+  margin-bottom: 140px;
+
+  @media only screen and (max-width: 990px) {
+    margin-bottom: 40px;
+  }
+}
+
+.question-section {
+  margin: 30px 0;
+}
+
+.block-container--info-accent {
+  margin-top: 140px;
+
+  @media only screen and (max-width: 990px) {
+    margin-top: 40px;
+  }
+}
+
+.language {
+  margin-top: 15px;
+}
+
+.footer_container_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.footer_container_content_row_social-media_link:last-child {
+  margin-right: 0px;
+}
+
+.explorer-container > .footer {
+  height: 380px;
+}
+
 .search-bar .search-bar-submit {
   background-color: #16335F;
 }
@@ -318,5 +363,3 @@ p.table-title {
     width: 54px;
   }
 }
-
-
