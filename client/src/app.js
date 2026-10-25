@@ -44,6 +44,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     /// User actions
     , page$     = route()
     , goHome$ = route('/')
+    , goTestnetSeo$ = route('/bitcoin-testnet')
+    , goCycleTopSeo$ = route('/pi-cycle-top')
+    , goTransactionSpeedSeo$ = route('/btc-transaction-speed')
+    , goLedgerSeo$ = route('/ledger-vs-bitcoin')
+    , goMovingAverageSeo$ = route('/200-week-moving-average')
     , goBlocks$   = route('/blocks/recent').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
     , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
     , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
@@ -239,6 +244,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // Currently visible view
     , view$ = O.merge(page$.mapTo(null)
       , goHome$.mapTo('dashBoard')
+      , goTestnetSeo$.mapTo('dashBoardTestnetSeo')
+      , goCycleTopSeo$.mapTo('dashBoardCycleTopSeo')
+      , goTransactionSpeedSeo$.mapTo('dashBoardTransactionSpeedSeo')
+      , goLedgerSeo$.mapTo('dashBoardLedgerSeo')
+      , goMovingAverageSeo$.mapTo('dashBoardMovingAverageSeo')
       , goBlocks$.mapTo('recentBlocks')
       , goRecent$.mapTo('recentTxs')
       , block$.filter(notNully).mapTo('block')
@@ -256,6 +266,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // Page title
     , title$ = O.merge(page$.withLatestFrom(t$, (_, t) => t`Bitcoin Blockchain Explorer | BTCScan`)
       , goBlocks$.withLatestFrom(t$, (_, t) => t`Bitcoin Blocks | BTCScan`)
+      , goTestnetSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin Testnet Tools & Wallets | BTCScan`)
+      , goCycleTopSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin Pi Cycle Top Indicator: What It Means | BTCScan`)
+      , goTransactionSpeedSeo$.withLatestFrom(t$, (_, t) => t`How Fast is Bitcoin? BTC Transaction Speed Explained | BTCScan`)
+      , goLedgerSeo$.withLatestFrom(t$, (_, t) => t`Using Ledger with Bitcoin: Security, Setup & Tips | BTCScan`)
+      , goMovingAverageSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin’s 200-Week Moving Average: A Long-Term Signal | BTCScan`)
       , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Bitcoin Block ${block.height} | BTCScan`)
       , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Bitcoin Transaction ${tx.txid} | BTCScan` )
       , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Bitcoin Address ${goAddr.display_addr} | BTCScan`)
@@ -266,6 +281,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , goRecent$.withLatestFrom(t$, (_, t) => t`Bitcoin Blockchain Explorer - Recent Transactions | BTCScan`))
 
     , description$ = O.merge(page$.withLatestFrom(t$, (_, t) => t`Real-time blockchain data. With the BTC block explorer, you can search blocks, addresses, and transactions on the Bitcoin blockchain`)
+      , goTestnetSeo$.withLatestFrom(t$, (_, t) => t`Explore the best Bitcoin Testnet wallets, faucets, and developer tools to test transactions safely.`)
+      , goCycleTopSeo$.withLatestFrom(t$, (_, t) => t`Understand the Bitcoin Pi Cycle Top indicator, how it predicts market tops, and whether it's still accurate.`)
+      , goTransactionSpeedSeo$.withLatestFrom(t$, (_, t) => t`Learn how fast Bitcoin transactions are, what affects their speed, and how BTC compares to other cryptocurrencies.`)
+      , goLedgerSeo$.withLatestFrom(t$, (_, t) => t`Get started with Ledger wallets for Bitcoin. Learn how to store, transfer, and secure your BTC.`)
+      , goMovingAverageSeo$.withLatestFrom(t$, (_, t) => t`Discover how the 200-week MA helps predict Bitcoin cycles and why it's a key level for investors.`)
       , goBlocks$.withLatestFrom(t$, (_, t) => t`Btcscan’s Bitcoin blockchain explorer helps make sense of past and real-time network data. Search BTC explorer for information on blocks, transactions, and addresses`)
       , goRecent$.withLatestFrom(t$, (_, t) => t`Check recent bitcoin transactions using Btcscan, a tool for tracking BTC transactions. Find ID transaction, bitcoin value, size, and fees.`)
       , goPush$.withLatestFrom(t$, (_, t) => t`Consult broadcast raw transactions with the BTC block explorer powered by BTCscan - Redot. Find ID transaction, bitcoin value, size, and fees.`)
@@ -274,6 +294,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Check Bitcoin (BTC) Address ${goAddr.display_addr} current balance and its transactions history`))
 
     , ogTitle$ = O.merge(page$.withLatestFrom(t$, (_, t) => t`Bitcoin Blockchain Explorer | BTCScan`)
+      , goTestnetSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin Testnet Tools & Wallets | BTCScan`)
+      , goCycleTopSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin Pi Cycle Top Indicator: What It Means | BTCScan`)
+      , goTransactionSpeedSeo$.withLatestFrom(t$, (_, t) => t`How Fast is Bitcoin? BTC Transaction Speed Explained | BTCScan`)
+      , goLedgerSeo$.withLatestFrom(t$, (_, t) => t`Using Ledger with Bitcoin: Security, Setup & Tips | BTCScan`)
+      , goMovingAverageSeo$.withLatestFrom(t$, (_, t) => t`Bitcoin’s 200-Week Moving Average: A Long-Term Signal | BTCScan`)
       , goBlocks$.withLatestFrom(t$, (_, t) => t`Btcscan - Bitcoin Blockchain Explorer | BTC Search Engine`)
       , goRecent$.withLatestFrom(t$, (_, t) => t`Bitcoin Blockchain Explorer - Recent Transactions | BTCScan`)
       , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Bitcoin block ${block.height} | BTCScan`)
@@ -282,6 +307,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Bitcoin Address ${goAddr.display_addr} | BTCScan`))
 
     , ogDescription$ = O.merge(page$.withLatestFrom(t$, (_, t) => t`Real-time blockchain data. With the BTC block explorer, you can search blocks, addresses, and transactions on the Bitcoin blockchain`)
+      , goTestnetSeo$.withLatestFrom(t$, (_, t) => t`Explore the best Bitcoin Testnet wallets, faucets, and developer tools to test transactions safely.`)
+      , goCycleTopSeo$.withLatestFrom(t$, (_, t) => t`Understand the Bitcoin Pi Cycle Top indicator, how it predicts market tops, and whether it's still accurate.`)
+      , goTransactionSpeedSeo$.withLatestFrom(t$, (_, t) => t`Learn how fast Bitcoin transactions are, what affects their speed, and how BTC compares to other cryptocurrencies.`)
+      , goLedgerSeo$.withLatestFrom(t$, (_, t) => t`Get started with Ledger wallets for Bitcoin. Learn how to store, transfer, and secure your BTC.`)
+      , goMovingAverageSeo$.withLatestFrom(t$, (_, t) => t`Discover how the 200-week MA helps predict Bitcoin cycles and why it's a key level for investors.`)
       , goBlocks$.withLatestFrom(t$, (_, t) => t`Btcscan’s Bitcoin blockchain explorer helps make sense of past and real-time network data. Search BTC explorer for information on blocks, transactions, and addresses`)
       , goRecent$.withLatestFrom(t$, (_, t) => t`Check recent bitcoin transactions using Btcscan, a tool for tracking BTC transactions. Find ID transaction, bitcoin value, size, and fees.`)
       , goPush$.withLatestFrom(t$, (_, t) => t`Consult broadcast raw transactions with the BTC block explorer powered by BTCscan - Redot. Find ID transaction, bitcoin value, size, and fees.`)
@@ -392,6 +422,16 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
       , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+        , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+      , goTestnetSeo$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+        , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+      , goCycleTopSeo$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+        , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+      , goTransactionSpeedSeo$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+        , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+      , goLedgerSeo$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+        , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+      , goMovingAverageSeo$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
         , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
       //
       // elements/liquid only
