@@ -1,3 +1,8 @@
+FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c AS nginx-build
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential ca-certificates curl libpcre3-dev libssl-dev zlib1g-dev libgeoip-dev libgd-dev libxslt1-dev libluajit-5.1-dev && rm -rf /var/lib/apt/lists/*
+COPY docker/nginx/build.sh /build-nginx.sh
+RUN sh /build-nginx.sh
+
 FROM blockstream/esplora-base:5d9e6d738eef370311f501dede83464a3bc0b046 AS build
 
 FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
@@ -8,7 +13,10 @@ COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
    && apt-get -yqq upgrade \
-   && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl runit procps socat gpg
+   && apt-get -yqq install nginx-common libpcre3 libssl1.1 libgeoip1 libgd3 libxslt1.1 libluajit-5.1-2 tor git curl runit procps socat gpg
+
+COPY --from=nginx-build /out/ /
+RUN mkdir -p /usr/share/nginx && ln -sfn /usr/lib/nginx/modules /usr/share/nginx/modules
 
 RUN mkdir -p /srv/explorer/static
 
