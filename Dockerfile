@@ -1,5 +1,5 @@
 FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c AS nginx-build
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential ca-certificates curl libpcre3-dev libssl-dev zlib1g-dev libgeoip-dev libgd-dev libxslt1-dev libluajit-5.1-dev && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && apt-get update && apt-get install -y --no-install-recommends build-essential ca-certificates curl libpcre3-dev libssl-dev zlib1g-dev libgeoip-dev libgd-dev libxslt1-dev libluajit-5.1-dev && rm -rf /var/lib/apt/lists/*
 COPY docker/nginx/build.sh /build-nginx.sh
 RUN sh /build-nginx.sh
 
@@ -11,7 +11,7 @@ COPY --from=build /srv/explorer /srv/explorer
 COPY --from=build /srv/wally_wasm /srv/wally_wasm
 COPY --from=build /root/.nvm /root/.nvm
 
-RUN apt-get -yqq update \
+RUN sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && apt-get -yqq update \
    && apt-get -yqq upgrade \
    && apt-get -yqq install nginx-common libpcre3 libssl1.1 libgeoip1 libgd3 libxslt1.1 libluajit-5.1-2 tor git curl runit procps socat gpg
 
@@ -73,7 +73,7 @@ RUN for dir in /srv/explorer/static/liquid*; do ln -s /srv/wally_wasm $dir/libwa
 RUN cp /srv/explorer/source/run.sh /srv/explorer/
 
 # cleanup
-RUN apt-get --auto-remove remove -yqq --purge manpages \
+RUN sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && apt-get --auto-remove remove -yqq --purge manpages \
    && apt-get clean \
    && apt-get autoclean \
    && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
