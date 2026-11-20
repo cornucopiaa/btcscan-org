@@ -12,7 +12,7 @@ fetch() {
 fetch nginx https://nginx.org/download/nginx-1.31.9.tar.gz a11c5eeee2e257f4478f0e649f84b0040787d277d2d3e5233952aa6b6dcb80ad
 fetch ndk https://codeload.github.com/vision5/ngx_devel_kit/tar.gz/bd44d16302273052d6005d7bdb55f74e23813de3 31963f6eb21c11991bd7b301bed0939570093f45c95ab947e4ac54da5855d4fd
 fetch lua https://codeload.github.com/openresty/lua-nginx-module/tar.gz/4b21d8f5fd3cc94fd25c530b3a61405af9666d0b 2be9995ab63e96675a3281349472412e600c4c2ccb82fd34b74ee7e0c80bc68a
-fetch core https://codeload.github.com/openresty/lua-resty-core/tar.gz/cb7264da6d94c259c4ad01ee5c61b5f65e3c7eb4 c19b44370ec9e929fffc3998010da9572ef8e9c3fffecdd24c9463c0f8106f77
+fetch core https://codeload.github.com/openresty/lua-resty-core/tar.gz/6fec23e2149c88b33b39fec8a5ebdd67a3e0dd88 f9f14dd61b7d5913ad2959dd4587aff214b7d131fc797d30825fca13d58eeac5
 fetch lrucache https://codeload.github.com/openresty/lua-resty-lrucache/tar.gz/3ff6300e68b73ba20e909c7d16bd839aef2e5a4b 1d85056a5737cfb4a479b8743d7765af11ee59c248d710b0b02a308da3882277
 export LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
 export LUAJIT_INC=/usr/include/luajit-2.1
